@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./auth-app-scalenow
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:5000
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./auth-app-backend-scalenow
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=mongodb+srv://arghadipchatterjee2016:Hibye2024@cluster0.9xl9itf.mongodb.net/scalenow
+      - JWT_SECRET=scalenow
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:4.4
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
